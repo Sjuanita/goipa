@@ -52,6 +52,7 @@ type User struct {
 	LastLoginSuccess time.Time           `json:"krblastsuccessfulauth"`
 	LastLoginFail    time.Time           `json:"krblastfailedauth"`
 	RandomPassword   string              `json:"randompassword"`
+	StorageUrl       string              `json:"storageurl"`
 }
 
 // SSH Public Key
@@ -105,6 +106,7 @@ func (u *User) ToOptions() Options {
 		"telephonenumber": u.TelephoneNumber,
 		"mobile":          u.Mobile,
 		"userclass":       u.Category,
+		"storageurl":      u.StorageUrl,
 	}
 
 	return options
@@ -137,6 +139,7 @@ func (u *User) fromJSON(raw []byte) error {
 	u.Shell = res.Get("loginshell.0").String()
 	u.Category = res.Get("userclass.0").String()
 	u.RandomPassword = res.Get("randompassword").String()
+	u.StorageUrl = res.Get("storageurl").String()
 	u.LastPasswdChange = ParseDateTime(res.Get("krblastpwdchange.0.__datetime__").String())
 	u.PasswdExpire = ParseDateTime(res.Get("krbpasswordexpiration.0.__datetime__").String())
 	u.PrincipalExpire = ParseDateTime(res.Get("krbprincipalexpiration.0.__datetime__").String())
